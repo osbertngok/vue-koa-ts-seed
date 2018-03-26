@@ -9,7 +9,7 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "../",
     "types": [
       "node",
       "mocha",
@@ -19,7 +19,12 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "lib": [
+      "es7",
+      "dom",
+      "es2015"
+    ]
   },
   "include": [
     "src/**/*.ts",
@@ -27,6 +32,6 @@
     "tests/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "../node_modules"
   ]
 }

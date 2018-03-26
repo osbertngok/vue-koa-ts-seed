@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "serve-fe": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
+    "build-fe": "vue-cli-service build",
+    "build-be": "tsc -p ./tsconfig.backend.json",
     "test-fe": "vue-cli-service test",
-    "lint-fe": "vue-cli-service lint"
+    "lint-fe": "vue-cli-service lint",
+    "build": "yarn run build-fe && yarn run build-be"
   },
   "dependencies": {
     "get-port": "^3.2.0",

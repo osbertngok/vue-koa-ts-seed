@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2015",
-    "module": "es2015",
+    "target": "es2017",
+    "module": "commonjs",
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
@@ -24,12 +24,15 @@
       "es7",
       "dom",
       "es2015"
-    ]
+    ],
+    "outDir": "./dist"
   },
   "include": [
-    "src/frontend/**/*.ts",
-    "src/frontend/**/*.vue",
-    "tests/frontend/**/*.ts"
+    "src/@types/**/*.ts",
+    "src/app.ts",
+    "src/backend/**/*.ts",
+    "src/backend/**/*.vue",
+    "tests/backend/**/*.ts"
   ],
   "exclude": [
     "../node_modules"

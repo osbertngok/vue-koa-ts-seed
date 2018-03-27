@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { shallow } from '@vue/test-utils';
-import HelloWorld from '@/frontend/components/HelloWorld.vue';
+import HelloWorld from '@/frontend/main/components/HelloWorld.vue';
 
 describe('HelloWorld.vue', () => {
   it('renders props.msg when passed', () => {

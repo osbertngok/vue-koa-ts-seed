@@ -18,21 +18,29 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import axios from 'axios';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 
-export default {
-  data() {
-    return {
-      form: {
-        username: '',
-        passwords: '',
-      },
+@Component
+export default class LoginForm extends Vue {
+  public form: {
+    username: string,
+    password: string,
+  };
+
+  constructor() {
+    super();
+    this.form = {
+      username: '',
+      password: '',
     };
-  },
-  methods: {
-    onSubmit() {
-      console.log('submit!');
-    },
-  },
-};
+  }
+
+  public async onSubmit() {
+    const res = await axios.post('/login', this.form);
+    console.log(res);
+  }
+}
 </script>

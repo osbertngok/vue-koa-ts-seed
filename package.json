@@ -11,6 +11,7 @@
     "build": "yarn run build-fe && yarn run build-be"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "element-ui": "^2.2.2",
     "get-port": "^3.2.0",
     "koa": "^2.5.0",

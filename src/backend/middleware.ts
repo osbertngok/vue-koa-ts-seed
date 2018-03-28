@@ -25,7 +25,7 @@ export const objectFormatMiddleware = async (ctx: Context, next: () => Promise<a
 
 export const exemptAuthentication = (ctx: Context) => {
   const url = ctx.request.url;
-  if (url.substr(0, 6) === '/oauth' || ['/login', '/login.html', '/logout.html'].includes(url)) {
+  if (url.substr(0, 6) === '/oauth' || ['/index.html'].includes(url)) {
     return true;
   }
   if (url.substr(url.length - 4, 4) === '.css') {
@@ -43,7 +43,7 @@ export const authMiddleware = async (ctx: Context, next: () => Promise<any>) => 
     await next();
     return;
   } else {
-    ctx.redirect('/login.html');
+    ctx.redirect('/index.html#/login');
   }
 };
 

@@ -7,7 +7,7 @@ class DumbStrategy implements passport.Strategy {
   public name: string;
 
   constructor() {
-    this.name = 'dump_strategy';
+    this.name = 'dumb';
   }
 
   public authenticate(req: express.Request, options?: any): any {

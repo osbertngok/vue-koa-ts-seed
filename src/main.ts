@@ -1,1 +1,1 @@
-export const dummy = 'For cli-plugin-typescript';
+import './frontend/main';

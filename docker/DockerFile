@@ -1,0 +1,12 @@
+FROM node:9
+ENV PROJECT_NAME vue-koa-ts-seed
+MAINTAINER <osbertngok@gmail.com>
+
+RUN mkdir /app
+WORKDIR /app
+COPY ./dist /app/
+
+CMD node /app/app.js
+
+EXPOSE 4000
+

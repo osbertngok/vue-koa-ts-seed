@@ -23,15 +23,9 @@ export const objectFormatMiddleware = async (ctx: Context, next: () => Promise<a
   }
 };
 
-export const exemptAuthentication = (ctx: Context) => {
+export const requireAuthentication = (ctx: Context) => {
   const url = ctx.request.url;
-  if (url.substr(0, 6) === '/oauth' || ['/index.html'].includes(url)) {
-    return true;
-  }
-  if (url.substr(url.length - 4, 4) === '.css') {
-    return true;
-  }
-  if (url.substr(url.length - 3, 3) === '.js') {
+  if (url.substr(0, 4) === '/api') {
     return true;
   }
   return false;
@@ -39,11 +33,11 @@ export const exemptAuthentication = (ctx: Context) => {
 
 export const authMiddleware = async (ctx: Context, next: () => Promise<any>) => {
   console.log(`Auth Status: ${ctx.isAuthenticated()}`);
-  if (exemptAuthentication(ctx) || ctx.isAuthenticated()) {
+  if (!requireAuthentication(ctx) || ctx.isAuthenticated()) {
     await next();
     return;
   } else {
-    ctx.redirect('/index.html#/login');
+    ctx.redirect('/#/login');
   }
 };
 

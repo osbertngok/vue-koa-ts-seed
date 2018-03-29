@@ -5,8 +5,11 @@ import * as passport from 'koa-passport';
 import {Context} from 'koa';
 
 rootRouter.use('/api', apiRouter.routes());
-rootRouter.post('/login', passport.authenticate('dumb'));
+rootRouter.post('/login', passport.authenticate('local', {
+  successRedirect: '/#/home',
+  failureRedirect: '/?err=invalidLogin#/login',
+}));
 rootRouter.get('/logout', async (ctx: Context, next) => {
   await ctx.logout();
-  ctx.redirect('/logout.html');
+  ctx.redirect('/#/logout');
 });

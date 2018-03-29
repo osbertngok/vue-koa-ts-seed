@@ -17,6 +17,7 @@ import {rootRouter} from './publicRoutes';
 
 import './auth';
 import {IStartAsync} from './interfaces';
+import {Context} from 'koa';
 
 export const app: Koa & IStartAsync = new Koa() as Koa & IStartAsync;
 
@@ -33,7 +34,8 @@ app.use(convert(logger()));
 app.use(mw.maintenaceMiddleware);
 
 app.use(mw.authMiddleware);
-app.use(async (ctx, next) => {
+
+app.use(async (ctx: Context, next) => {
   await next();
   if (ctx.fresh) {
     ctx.status = 304;
@@ -46,7 +48,7 @@ app.use(mount('/js', serve(__dirname + '/../frontend/js', {
   maxage: 2628000000,
 })));
 app.use(serve(__dirname + '/../frontend'));
-app.use(mw.redirectToRootMiddleware);
+// app.use(mw.redirectToRootMiddleware);
 
 
 

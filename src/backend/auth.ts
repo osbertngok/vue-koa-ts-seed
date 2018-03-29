@@ -1,20 +1,11 @@
 import * as KoaPassport from 'koa-passport';
-import * as passport from 'passport';
-import * as express from 'express';
 
-class DumbStrategy implements passport.Strategy {
+import { Strategy as LocalStrategy } from 'passport-local';
 
-  public name: string;
-
-  constructor() {
-    this.name = 'dumb';
-  }
-
-  public authenticate(req: express.Request, options?: any): any {
-    return undefined;
-  }
-
-}
+const singleUser = {
+  username: 'admin',
+  password: '123456',
+};
 
 KoaPassport.serializeUser((user, done) => {
   done(null, user);
@@ -24,4 +15,17 @@ KoaPassport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-KoaPassport.use(new DumbStrategy());
+KoaPassport.use(new LocalStrategy({
+  usernameField: 'username',
+  passwordField: 'password',
+}, (username: string, password: string, done: any) => {
+  if (username !== singleUser.username) {
+    return done(new Error(`user ${username} doesn't exist`));
+  }
+  if (password !== singleUser.password) {
+    return done(new Error(`password is not correct`));
+  }
+  return done(null, {
+    username: singleUser.username,
+  });
+}));

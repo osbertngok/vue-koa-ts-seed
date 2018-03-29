@@ -19,6 +19,7 @@ KoaPassport.use(new LocalStrategy({
   usernameField: 'username',
   passwordField: 'password',
 }, (username: string, password: string, done: any) => {
+  console.log(`username: ${username}`);
   if (username !== singleUser.username) {
     return done(new Error(`user ${username} doesn't exist`));
   }
@@ -26,6 +27,6 @@ KoaPassport.use(new LocalStrategy({
     return done(new Error(`password is not correct`));
   }
   return done(null, {
-    username: singleUser.username,
+    username,
   });
 }));

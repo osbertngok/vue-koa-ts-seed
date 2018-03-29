@@ -10,7 +10,7 @@ rootRouter.post('/login', async (ctx: Context, next) => {
     await passport.authenticate('local')(ctx, async () => {
       return undefined;
     });
-  } catch (error) {
+  } catch (e) {
     ctx.status = 401;
     ctx.body = {
       success: false,
@@ -22,7 +22,20 @@ rootRouter.post('/login', async (ctx: Context, next) => {
   ctx.body = ctx.state.user;
   await next();
 });
-rootRouter.get('/logout', async (ctx: Context, next) => {
-  await ctx.logout();
-  ctx.redirect('/#/login');
+rootRouter.post('/logout', async (ctx: Context, next) => {
+  try {
+    await ctx.logout();
+  } catch (e) {
+    ctx.status = 500;
+    ctx.body = {
+      success: false,
+      error: 'logout_error',
+    };
+    return;
+  }
+  ctx.status = 200;
+  ctx.body = {
+    success: true,
+    error: null,
+  };
 });

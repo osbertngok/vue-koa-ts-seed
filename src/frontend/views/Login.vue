@@ -21,6 +21,7 @@
 <script lang="ts">
 import axios from 'axios';
 import Vue from 'vue';
+import ElementUI from 'element-ui';
 import { Component } from 'vue-property-decorator';
 
 @Component
@@ -39,8 +40,16 @@ export default class LoginForm extends Vue {
   }
 
   public async onSubmit() {
-    const res = await axios.post('/login', this.form);
-    console.log(res);
+    try {
+      const res = await axios.post('/login', this.form);
+      console.log(res);
+      this.$router.push('/');
+    } catch (error) {
+      this.$notify.error({
+        title: 'Login Error',
+        message: 'Username does not exists or password does not match',
+      });
+    }
   }
 }
 </script>

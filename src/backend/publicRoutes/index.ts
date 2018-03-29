@@ -5,11 +5,24 @@ import * as passport from 'koa-passport';
 import {Context} from 'koa';
 
 rootRouter.use('/api', apiRouter.routes());
-rootRouter.post('/login', passport.authenticate('local', {
-  successRedirect: '/#/home',
-  failureRedirect: '/?err=invalidLogin#/login',
-}));
+rootRouter.post('/login', async (ctx: Context, next) => {
+  try {
+    await passport.authenticate('local')(ctx, async () => {
+      return undefined;
+    });
+  } catch (error) {
+    ctx.status = 401;
+    ctx.body = {
+      success: false,
+      error: 'access_denied',
+    };
+    return;
+  }
+  ctx.status = 200;
+  ctx.body = ctx.state.user;
+  await next();
+});
 rootRouter.get('/logout', async (ctx: Context, next) => {
   await ctx.logout();
-  ctx.redirect('/#/logout');
+  ctx.redirect('/#/login');
 });

@@ -5,6 +5,16 @@ import * as passport from 'koa-passport';
 import {Context} from 'koa';
 
 rootRouter.use('/api', apiRouter.routes());
+rootRouter.get('/user', async (ctx: Context, next) => {
+  if (ctx.isAuthenticated()) {
+    ctx.status = 200;
+    ctx.body = ctx.state.user;
+  } else {
+    ctx.status = 200;
+    ctx.body = null;
+  }
+});
+
 rootRouter.post('/login', async (ctx: Context, next) => {
   try {
     await passport.authenticate('local')(ctx, async () => {
@@ -22,6 +32,7 @@ rootRouter.post('/login', async (ctx: Context, next) => {
   ctx.body = ctx.state.user;
   await next();
 });
+
 rootRouter.post('/logout', async (ctx: Context, next) => {
   try {
     await ctx.logout();

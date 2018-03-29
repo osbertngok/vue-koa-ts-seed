@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/frontend/components/HelloWorld.vue'; // @ is an alias to /src
 
@@ -14,5 +15,20 @@ import HelloWorld from '@/frontend/components/HelloWorld.vue'; // @ is an alias 
     HelloWorld,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  public mounted() {
+    this.mountedAsync();
+  }
+
+  public async mountedAsync() {
+    try {
+      const res = await axios.get('/user');
+      if (!res.data) {
+        this.$router.push('/login');
+      }
+    } catch (error) {
+      this.$router.push('/login');
+    }
+  }
+}
 </script>

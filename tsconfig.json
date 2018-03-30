@@ -29,7 +29,8 @@
   "include": [
     "src/frontend/**/*.ts",
     "src/frontend/**/*.vue",
-    "tests/frontend/**/*.ts"
+    "tests/frontend/**/*.ts",
+    "src/@types/index.d.ts"
   ],
   "exclude": [
     "../node_modules"

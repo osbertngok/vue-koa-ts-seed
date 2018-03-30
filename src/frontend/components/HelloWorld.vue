@@ -1,6 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h2>Google Ping</h2>
+    <pre>
+      {{ bodyMsg }}
+    </pre>
     <p>
       For guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -32,10 +36,44 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Stream } from 'stream';
 
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+
+  @Prop() private bodyMsg: string;
+
+  constructor() {
+    super();
+    this.bodyMsg = '';
+  }
+
+  public mounted() {
+    this.mountedAsync();
+  }
+
+  public async mountedAsync() {
+
+    const handle = (value: Uint8Array) =>  {
+      const enc: ITextDecoder = new window.TextDecoder('utf-8');
+      this.bodyMsg += enc.decode(value);
+    };
+    const res: Response = await fetch('api/v1/ping', {
+      credentials: 'same-origin',
+    });
+    if (res && res.body) {
+      const reader = res.body.getReader();
+      while (reader) {
+        const {done, value} = await reader.read();
+        handle(value);
+        if (done) {
+          break;
+        }
+      }
+    }
+  }
+
 }
 </script>
 
